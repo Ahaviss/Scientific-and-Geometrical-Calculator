@@ -84,13 +84,13 @@ public class ShapeLogic3D {
             System.out.printf("Surface area: %.2f %s²%n", surfaceArea, metric);
             ProjectUtils.checkDecimal(surfaceArea);
             HistoryManager.addHistory(new History(CalculatorType.GEOMETRICAL, TypeOfCalculation.SURFACE_AREA, surfaceArea));
-            HistoryManager.prev = surfaceArea;
+            HistoryManager.setPrev(surfaceArea);
         } else if (operation == GeometryOperation.VOLUME) {
             double volume = object.volume();
             System.out.printf("Volume: %.2f %s³%n", volume, metric);
             ProjectUtils.checkDecimal(volume);
             HistoryManager.addHistory(new History(CalculatorType.GEOMETRICAL, TypeOfCalculation.VOLUME, volume));
-            HistoryManager.prev = volume;
+            HistoryManager.setPrev(volume);
         }
     }
 }

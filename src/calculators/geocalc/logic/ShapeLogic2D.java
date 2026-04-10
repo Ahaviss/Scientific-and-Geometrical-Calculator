@@ -28,7 +28,7 @@ public class ShapeLogic2D {
                     }
                     System.out.printf("Area of the circle: ~%.2f %s²%n", circleArea, metric);
                     ProjectUtils.checkDecimal(circleArea);
-                    HistoryManager.prev = circleArea;
+                    HistoryManager.setPrev(circleArea);
                     break;
                 }
                 else {
@@ -56,7 +56,7 @@ public class ShapeLogic2D {
                 }
                 System.out.printf("Area of the rectangle: %.2f %s²%n", rectangleArea, metric);
                 ProjectUtils.checkDecimal(rectangleArea);
-                HistoryManager.prev = rectangleArea;
+                HistoryManager.setPrev(rectangleArea);
                 break;
             }
             catch (NumberFormatException e) {
@@ -79,7 +79,7 @@ public class ShapeLogic2D {
                 }
                 System.out.printf("Area of the square: %.2f %s²%n", squareArea, metric);
                 ProjectUtils.checkDecimal(squareArea);
-                HistoryManager.prev = squareArea;
+                HistoryManager.setPrev(squareArea);
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Invalid number format. Please try again");
@@ -101,7 +101,7 @@ public class ShapeLogic2D {
                 }
                 System.out.printf("Area of the triangle: %.2f %s²%n", triangleArea, metric);
                 ProjectUtils.checkDecimal(triangleArea);
-                HistoryManager.prev = triangleArea;
+                HistoryManager.setPrev(triangleArea);
                 break;
             }
             catch (NumberFormatException e) {
@@ -126,7 +126,7 @@ public class ShapeLogic2D {
                 }
                 System.out.printf("Area of the trapezoid: %.2f %s²%n", trapezoidArea, metric);
                 ProjectUtils.checkDecimal(trapezoidArea);
-                HistoryManager.prev = trapezoidArea;
+                HistoryManager.setPrev(trapezoidArea);
                 break;
             }
             catch (NumberFormatException e) {

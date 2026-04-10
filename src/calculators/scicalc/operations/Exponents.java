@@ -20,7 +20,7 @@ public class Exponents {
                 String tempNumbers = ProjectUtils.getValidString("Please enter the base and power followed by a space (\"4 5\")");
                 if (tempNumbers.trim().equalsIgnoreCase("exit")) return;
                 if (tempNumbers.trim().equalsIgnoreCase("help")) printHelp();
-                double[] numbers = ProjectUtils.stringToDoubleArray(tempNumbers, HistoryManager.prev);
+                double[] numbers = ProjectUtils.stringToDoubleArray(tempNumbers, HistoryManager.getPrev());
                 if (numbers == null) continue;
                 if (numbers.length != 2) {
                     System.out.println("Please enter at least two numbers (base and exponent) followed by a space (\"4 5\")");
@@ -38,7 +38,7 @@ public class Exponents {
                 }
                 System.out.printf("%.2f to the power %.2f is %.2f\n", base, exponent, result);
                 ProjectUtils.checkDecimal(result);
-                HistoryManager.prev = result;
+                HistoryManager.setPrev(result);
                 HistoryManager.addHistory(new History(CalculatorType.SCIENTIFIC, TypeOfCalculation.EXPONENTS, result));
             } catch (Exception e) {
                 System.out.println("An unexpected error occurred: " + e.getMessage());

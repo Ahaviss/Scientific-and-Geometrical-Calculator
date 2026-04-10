@@ -17,7 +17,9 @@ public class Factorial {
                 String tempNumbers = ProjectUtils.getValidString("Please enter a whole, positive number.");
                 if (tempNumbers.equalsIgnoreCase("exit")) return;
                 if (tempNumbers.trim().equalsIgnoreCase("help")) printHelp();
-                long userInput = Long.parseLong(tempNumbers);
+                long userInput;
+                if (tempNumbers.equalsIgnoreCase("prev")) {userInput = (long) HistoryManager.getPrev();}
+                else {userInput = Long.parseLong(tempNumbers);}
                 if (userInput >= 0) {
                     long result = 1;
                     for (long i = 1; i <= userInput; i++) {
@@ -28,7 +30,7 @@ public class Factorial {
                         result *= i;
                     }
                     System.out.printf("The result is %d.\n", result);
-                    HistoryManager.prev = (double) result;
+                    HistoryManager.setPrev((double) result);
                     HistoryManager.addHistory(new History(CalculatorType.SCIENTIFIC, TypeOfCalculation.FACTORIAL, (double) result));
                 } else {
                     System.out.println("Error: Please enter a positive number.");

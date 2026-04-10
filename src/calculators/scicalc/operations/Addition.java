@@ -19,7 +19,7 @@ public class Addition {
                 String tempNumbers = ProjectUtils.getValidString("Please enter all numbers followed by a space (\"4 5 6\")");
                 if (tempNumbers.trim().equalsIgnoreCase("exit")) return;
                 if (tempNumbers.trim().equalsIgnoreCase("help")) printHelp();
-                double[] numbers = ProjectUtils.stringToDoubleArray(tempNumbers, HistoryManager.prev);
+                double[] numbers = ProjectUtils.stringToDoubleArray(tempNumbers, HistoryManager.getPrev());
                 if (numbers == null) continue;
                 if (numbers.length < 2) {
                     System.out.println("Please enter at least two numbers followed by a space (\" \")");
@@ -33,7 +33,7 @@ public class Addition {
                 HistoryManager.addHistory(new History(CalculatorType.SCIENTIFIC, TypeOfCalculation.ADDITION, sum));
                 System.out.printf("Result: %.2f%n", sum);
                 ProjectUtils.checkDecimal(sum);
-                HistoryManager.prev = sum;
+                HistoryManager.setPrev(sum);
             }
             catch (NumberFormatException e) {
                 System.out.println("Invalid input. Skipping current input...");

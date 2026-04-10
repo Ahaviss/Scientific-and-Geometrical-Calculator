@@ -18,7 +18,9 @@ public class SquareRoot {
                 String tempNumbers = ProjectUtils.getValidString("Please enter a number to find the square root of.");
                 if (tempNumbers.equalsIgnoreCase("exit")) return;
                 if (tempNumbers.trim().equalsIgnoreCase("help")) printHelp();
-                double userInput = Double.parseDouble(tempNumbers);
+                double userInput;
+                if (tempNumbers.equalsIgnoreCase("prev")) {userInput = HistoryManager.getPrev();}
+                else {userInput =  Double.parseDouble(tempNumbers);}
                 double root;
                 if (!Double.isFinite(userInput)) {
                     System.out.println("Overflow.");
@@ -33,6 +35,8 @@ public class SquareRoot {
                     System.out.printf("The square root of %.2f is %.2f.\n", userInput, root);
                 }
                 HistoryManager.addHistory(new History(CalculatorType.SCIENTIFIC, TypeOfCalculation.SQUARE_ROOT, root));
+                ProjectUtils.checkDecimal(root);
+                HistoryManager.setPrev(root);
             } catch (Exception e) {
                 System.out.println("An unexpected error occurred: " + e.getMessage());
             }
