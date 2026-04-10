@@ -6,20 +6,18 @@ import utils.ProjectUtils;
 
 public class Subtraction {
     private static void printHelp () {
-        System.out.println("Addition");
+        System.out.println("Subtraction");
         System.out.println("\"exit\": exits the current operation.");
         System.out.println("\"prev\": fetches the previous operation result from both calculators (e.g \"prev 5\").");
         System.out.println("\"help\": prints commands and current operation");
     }
     public static void subtraction () {
-        System.out.println("Type \"prev\" to fetch the previous operation result from both calculators.");
-        System.out.println("Type \"exit\" to exit the subtraction screen");
-        System.out.println("Type \"help\" to print commands and current operation");
+        printHelp();
         while (true) {
             try {
                 double difference;
                 String tempNumbers = ProjectUtils.getValidString("Please enter all numbers followed by a space (\"4 5 6\")");
-                if (tempNumbers.equalsIgnoreCase("exit")) return;
+                if (tempNumbers.trim().equalsIgnoreCase("exit")) return;
                 if (tempNumbers.trim().equalsIgnoreCase("help")) printHelp();
                 double[] numbers = ProjectUtils.stringToDoubleArray(tempNumbers, HistoryManager.getPrev());
                 if (numbers == null) continue;

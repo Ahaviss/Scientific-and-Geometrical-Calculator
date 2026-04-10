@@ -8,13 +8,13 @@ import utils.ProjectUtils;
 
 public class Exponents {
     private static void printHelp () {
-        System.out.println("Addition");
+        System.out.println("Exponents");
         System.out.println("\"exit\": exits the current operation.");
         System.out.println("\"prev\": fetches the previous operation result from both calculators (e.g \"prev 5\").");
         System.out.println("\"help\": prints commands and current operation");
     }
     public static void exponents () {
-        System.out.println("Type \"exit\" to exit the exponents screen");
+        printHelp();
         while (true) {
             try {
                 String tempNumbers = ProjectUtils.getValidString("Please enter the base and power followed by a space (\"4 5\")");

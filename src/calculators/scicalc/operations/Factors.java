@@ -5,17 +5,17 @@ import utils.ProjectUtils;
 import enums.*;
 public class Factors {
     private static void printHelp () {
-        System.out.println("Addition");
+        System.out.println("Find Factors");
         System.out.println("\"exit\": exits the current operation.");
         System.out.println("\"prev\": fetches the previous operation result from both calculators (e.g \"prev 5\").");
         System.out.println("\"help\": prints commands and current operation");
     }
     public static void factors () {
-        System.out.println("Type \"exit\" to exit the factors screen");
+        printHelp();
         while (true) {
             try {
                 String tempNumbers = ProjectUtils.getValidString("Enter a number to find its factors:");
-                if (tempNumbers.equalsIgnoreCase("exit")) return;
+                if (tempNumbers.trim().equalsIgnoreCase("exit")) return;
                 if (tempNumbers.trim().equalsIgnoreCase("help")) printHelp();
                 long userInput = Long.parseLong(tempNumbers);
                 if (userInput > Integer.MAX_VALUE) {

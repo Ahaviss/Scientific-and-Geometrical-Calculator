@@ -6,17 +6,17 @@ import utils.ProjectUtils;
 
 public class SquareRoot {
     private static void printHelp () {
-        System.out.println("Addition");
+        System.out.println("Square Root");
         System.out.println("\"exit\": exits the current operation.");
         System.out.println("\"prev\": fetches the previous operation result from both calculators (e.g \"prev 5\").");
         System.out.println("\"help\": prints commands and current operation");
     }
     public static void squareRoot () {
-        System.out.println("Type \"exit\" to exit the square root screen");
+        printHelp();
         while (true) {
             try {
                 String tempNumbers = ProjectUtils.getValidString("Please enter a number to find the square root of.");
-                if (tempNumbers.equalsIgnoreCase("exit")) return;
+                if (tempNumbers.trim().equalsIgnoreCase("exit")) return;
                 if (tempNumbers.trim().equalsIgnoreCase("help")) printHelp();
                 double userInput;
                 if (tempNumbers.equalsIgnoreCase("prev")) {userInput = HistoryManager.getPrev();}

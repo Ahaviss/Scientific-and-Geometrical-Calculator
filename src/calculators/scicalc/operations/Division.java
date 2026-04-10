@@ -6,13 +6,13 @@ import utils.ProjectUtils;
 
 public class Division {
     private static void printHelp () {
-        System.out.println("Addition");
+        System.out.println("Division");
         System.out.println("\"exit\": exits the current operation.");
         System.out.println("\"prev\": fetches the previous operation result from both calculators (e.g \"prev 5\").");
         System.out.println("\"help\": prints commands and current operation");
     }
     public static void division () {
-        System.out.println("Type \"exit\" to exit the division screen");
+        printHelp();
         while (true) {
             try {
                 double quotient;

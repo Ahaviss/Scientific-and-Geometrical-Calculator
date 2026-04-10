@@ -12,7 +12,7 @@ public class Addition {
         System.out.println("\"help\": prints commands and current operation");
     }
     public static void addition () {
-        System.out.println("Type \"exit\" to exit the addition screen");
+        printHelp();
         while (true) {
             try {
                 double sum = 0;
