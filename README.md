@@ -142,4 +142,4 @@ In the scientific calculator, you can type `prev` as an input to reuse the resul
 
 ## License
 
-Owned by `Ahaviss` and not available for plagiarism or any claim of ownership. All code belongs solely to `Ahaviss` and has no other contributors.
+Read LICENSE
