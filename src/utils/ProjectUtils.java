@@ -1,5 +1,7 @@
 package utils;
 
+import history.HistoryManager;
+
 import java.util.Scanner;
 
 public class ProjectUtils {
@@ -51,7 +53,9 @@ public class ProjectUtils {
             try {
                 //Prints the given prompt
                 System.out.println(prompt);
-                double input = Double.parseDouble(scanner.nextLine());
+                String tempInput = scanner.nextLine();
+                if (tempInput.equalsIgnoreCase("prev")) return HistoryManager.getPrev();
+                double input = Double.parseDouble(tempInput);
                 //Checks if the input is positive and hasn't overflowed
                 if (Double.isNaN(input) || !Double.isFinite(input)) {
                     System.out.println("Invalid input. Please enter a positive number.");

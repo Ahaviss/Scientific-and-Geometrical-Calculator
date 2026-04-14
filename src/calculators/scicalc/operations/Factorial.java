@@ -16,7 +16,7 @@ public class Factorial {
             try {
                 String tempNumbers = ProjectUtils.getValidString("Please enter a whole, positive number.");
                 if (tempNumbers.trim().equalsIgnoreCase("exit")) return;
-                if (tempNumbers.trim().equalsIgnoreCase("help")) printHelp();
+                if (tempNumbers.trim().equalsIgnoreCase("help")) {printHelp(); continue;}
                 long userInput;
                 if (tempNumbers.equalsIgnoreCase("prev")) {userInput = (long) HistoryManager.getPrev();}
                 else {userInput = Long.parseLong(tempNumbers);}

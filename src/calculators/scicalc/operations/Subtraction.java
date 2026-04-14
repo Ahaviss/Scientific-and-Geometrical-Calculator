@@ -18,7 +18,7 @@ public class Subtraction {
                 double difference;
                 String tempNumbers = ProjectUtils.getValidString("Please enter all numbers followed by a space (\"4 5 6\")");
                 if (tempNumbers.trim().equalsIgnoreCase("exit")) return;
-                if (tempNumbers.trim().equalsIgnoreCase("help")) printHelp();
+                if (tempNumbers.trim().equalsIgnoreCase("help")) {printHelp(); continue;}
                 double[] numbers = ProjectUtils.stringToDoubleArray(tempNumbers, HistoryManager.getPrev());
                 if (numbers == null) continue;
                 if (numbers.length < 2) {

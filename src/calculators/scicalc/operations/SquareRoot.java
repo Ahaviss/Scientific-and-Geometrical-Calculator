@@ -17,7 +17,7 @@ public class SquareRoot {
             try {
                 String tempNumbers = ProjectUtils.getValidString("Please enter a number to find the square root of.");
                 if (tempNumbers.trim().equalsIgnoreCase("exit")) return;
-                if (tempNumbers.trim().equalsIgnoreCase("help")) printHelp();
+                if (tempNumbers.trim().equalsIgnoreCase("help")) {printHelp(); continue;}
                 double userInput;
                 if (tempNumbers.equalsIgnoreCase("prev")) {userInput = HistoryManager.getPrev();}
                 else {userInput =  Double.parseDouble(tempNumbers);}

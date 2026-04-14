@@ -16,7 +16,7 @@ public class Factors {
             try {
                 String tempNumbers = ProjectUtils.getValidString("Enter a number to find its factors:");
                 if (tempNumbers.trim().equalsIgnoreCase("exit")) return;
-                if (tempNumbers.trim().equalsIgnoreCase("help")) printHelp();
+                if (tempNumbers.trim().equalsIgnoreCase("help")) {printHelp(); continue;}
                 long userInput = Long.parseLong(tempNumbers);
                 if (userInput > Integer.MAX_VALUE) {
                     System.out.println("Overflow.");
