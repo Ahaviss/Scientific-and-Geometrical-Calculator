@@ -67,7 +67,11 @@ public class Factors {
                 }
                 long numberOfFactors = function.calculate(userInput);
                 HistoryManager.addHistory(new History(CalculatorType.SCIENTIFIC, TypeOfCalculation.FACTORS, numberOfFactors));
-            } catch (Exception e) {
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Invalid number format: " + e.getMessage());
+            }
+            catch (Exception e) {
                 System.out.println("An unexpected error occurred: " + e.getMessage());
             }
         }

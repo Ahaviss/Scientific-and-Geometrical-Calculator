@@ -37,7 +37,11 @@ public class SquareRoot {
                 HistoryManager.addHistory(new History(CalculatorType.SCIENTIFIC, TypeOfCalculation.SQUARE_ROOT, root));
                 ProjectUtils.checkDecimal(root);
                 HistoryManager.setPrev(root);
-            } catch (Exception e) {
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Invalid number format: " + e.getMessage());
+            }
+            catch (Exception e) {
                 System.out.println("An unexpected error occurred: " + e.getMessage());
             }
         }

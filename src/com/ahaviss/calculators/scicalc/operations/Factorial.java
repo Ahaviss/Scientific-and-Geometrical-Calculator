@@ -44,6 +44,9 @@ public class Factorial {
             catch (CalculationException e) {
                 System.out.println(e.getMessage());
             }
+            catch (NumberFormatException e) {
+                System.out.println("Invalid number format: " + e.getMessage());
+            }
             catch (Exception e) {
                 System.out.println("An unexpected error occurred: " + e.getMessage());
             }
