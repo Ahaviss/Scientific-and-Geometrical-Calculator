@@ -34,7 +34,13 @@ public class Factors {
                 String tempNumbers = ProjectUtils.getValidString("Enter a number to find its factors:");
                 if (tempNumbers.trim().equalsIgnoreCase("exit")) return;
                 if (tempNumbers.trim().equalsIgnoreCase("help")) {printHelp(); continue;}
-                long userInput = Long.parseLong(tempNumbers);
+                long userInput;
+                if (tempNumbers.trim().equalsIgnoreCase("prev")) {
+                    userInput = (long) HistoryManager.getPrev();
+                }
+                else {
+                    userInput = Long.parseLong(tempNumbers);
+                }
                 long numberOfFactors = function.calculate(userInput);
                 System.out.printf("This number has %d factors.\n", numberOfFactors);
                 if (numberOfFactors == 2) {
