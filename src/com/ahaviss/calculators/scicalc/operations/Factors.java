@@ -4,18 +4,44 @@ import com.ahaviss.calculators.scicalc.functions.LongFunction;
 import com.ahaviss.history.*;
 import com.ahaviss.utils.ProjectUtils;
 import com.ahaviss.enums.*;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 public class Factors {
     private static final LongFunction function = (long number) -> {
+        final List<Long> factors = new ArrayList<>();
         long numberOfFactors = 0;
         for (long i = 1; i * i <= number; i++) {
             if (number % i == 0) {
                 numberOfFactors++;
-                System.out.printf("%d is a factor of %d%n", i, number);
+                factors.add(i);
                 if (i != number / i) {
                     numberOfFactors++;
-                    System.out.printf("%d is a factor of %d%n", number / i, number);
+                    long factor = number / i;
+                    factors.add(factor);
                 }
             }
+        }
+        System.out.printf("This number has %d factors.\n", numberOfFactors);
+        if (numberOfFactors == 2) {
+            System.out.println("This number is a prime number.");
+        } else if (numberOfFactors == 0) {
+            System.out.println("This number has no factors.");
+        } else if (numberOfFactors == 1) {
+            System.out.println("This number nor prime nor composite.");
+        } else if (numberOfFactors > 2) {
+            System.out.println("This number is composite.");
+        }
+        while (true) {
+            String option = ProjectUtils.getValidString("View Factors? Y/N");
+            if (option.equalsIgnoreCase("Y")) {
+                Collections.sort(factors);
+                factors.forEach(System.out::println);
+                break;
+            }
+            else if (option.equalsIgnoreCase("N")) break;
+            else System.out.println("Invalid option.");
         }
         return numberOfFactors;
     };
@@ -40,16 +66,6 @@ public class Factors {
                     userInput = Long.parseLong(tempNumbers);
                 }
                 long numberOfFactors = function.calculate(userInput);
-                System.out.printf("This number has %d factors.\n", numberOfFactors);
-                if (numberOfFactors == 2) {
-                    System.out.println("This number is a prime number.");
-                } else if (numberOfFactors == 0) {
-                    System.out.println("This number has no factors.");
-                } else if (numberOfFactors == 1) {
-                    System.out.println("This number nor prime nor composite.");
-                } else if (numberOfFactors > 2) {
-                    System.out.println("This number is composite.");
-                }
                 HistoryManager.addHistory(new History(CalculatorType.SCIENTIFIC, TypeOfCalculation.FACTORS, numberOfFactors));
             } catch (Exception e) {
                 System.out.println("An unexpected error occurred: " + e.getMessage());
