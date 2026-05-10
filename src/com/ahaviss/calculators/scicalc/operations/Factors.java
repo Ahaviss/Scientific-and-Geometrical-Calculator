@@ -7,15 +7,13 @@ import com.ahaviss.enums.*;
 public class Factors {
     private static final LongFunction function = (long number) -> {
         long numberOfFactors = 0;
-        long sqrt = (long) Math.sqrt(number);
-
-        for (long i = 1; i <= sqrt; i++) {
+        for (long i = 1; i * i <= number; i++) {
             if (number % i == 0) {
-                System.out.printf("%d is a factor of %d.\n", i, number);
                 numberOfFactors++;
+                System.out.printf("%d is a factor of %d%n", i, number);
                 if (i != number / i) {
-                    System.out.printf("%d is a factor of %d.\n", number / i, number);
                     numberOfFactors++;
+                    System.out.printf("%d is a factor of %d%n", number / i, number);
                 }
             }
         }
