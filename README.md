@@ -45,51 +45,73 @@ A Java CLI application that combines a scientific calculator and a geometrical c
 ```
 src/
 ├── main/
-│   └── Main.java                        # Entry point
-├── enums/
-│   ├── CalculatorType.java
-│   └── TypeOfCalculation.java
-├── history/
-│   ├── History.java
-│   └── HistoryManager.java
-├── utils/
-│   └── ProjectUtils.java                # Shared input validation utilities
-└── calculators/
-    ├── scicalc/
-    │   ├── calcmain/
-    │   │   └── SciCalc.java
-    │   └── operations/
-    │       ├── Addition.java
-    │       ├── Subtraction.java
-    │       ├── Multiplication.java
-    │       ├── Division.java
-    │       ├── Exponents.java
-    │       ├── SquareRoot.java
-    │       ├── Factorial.java
-    │       └── Factors.java
-    └── geocalc/
-        ├── calcmain/
-        │   └── GeoCalc.java
-        ├── enums/
-        │   ├── GeometryOperation.java
-        │   └── RadiusOrDiameter.java
-        ├── logic/
-        │   ├── ShapeLogic2D.java
-        │   └── ShapeLogic3D.java
-        ├── shapes2D/
-        │   ├── Shape2D.java             # Abstract base class
-        │   ├── Circle.java
-        │   ├── Rectangle.java
-        │   ├── Square.java
-        │   ├── Triangle.java
-        │   └── Trapezoid.java
-        └── shapes3D/
-            ├── Shape3D.java             # Abstract base class
-            ├── Cube.java
-            ├── Cylinder.java
-            ├── PyramidSquare.java
-            ├── RecPrism.java
-            └── TrianglePrism.java
+│   ├── java/
+│   │   └── com/
+│   │       └── ahaviss/
+│   │           ├── Main.java                        # Application entry point
+│   │           ├── enums/
+│   │           │   ├── CalculatorType.java
+│   │           │   └── TypeOfCalculation.java
+│   │           ├── history/
+│   │           │   ├── History.java
+│   │           │   └── HistoryManager.java
+│   │           ├── utils/
+│   │           │   └── ProjectUtils.java
+│   │           └── calculators/
+│   │               ├── scicalc/
+│   │               │   ├── calcmain/
+│   │               │   │   └── SciCalc.java
+│   │               │   └── operations/
+│   │               │       ├── Addition.java
+│   │               │       ├── Subtraction.java
+│   │               │       ├── Multiplication.java
+│   │               │       ├── Division.java
+│   │               │       ├── Exponents.java
+│   │               │       ├── SquareRoot.java
+│   │               │       ├── Factorial.java
+│   │               │       └── Factors.java
+│   │               └── geocalc/
+│   │                   ├── calcmain/
+│   │                   │   └── GeoCalc.java
+│   │                   ├── enums/
+│   │                   │   ├── GeometryOperation.java
+│   │                   │   └── RadiusOrDiameter.java
+│   │                   ├── logic/
+│   │                   │   ├── ShapeLogic2D.java
+│   │                   │   └── ShapeLogic3D.java
+│   │                   ├── shapes2D/
+│   │                   │   ├── Shape2D.java
+│   │                   │   ├── Circle.java
+│   │                   │   ├── Rectangle.java
+│   │                   │   ├── Square.java
+│   │                   │   ├── Triangle.java
+│   │                   │   └── Trapezoid.java
+│   │                   └── shapes3D/
+│   │                       ├── Shape3D.java
+│   │                       ├── Cube.java
+│   │                       ├── Cylinder.java
+│   │                       ├── PyramidSquare.java
+│   │                       ├── RecPrism.java
+│   │                       └── TrianglePrism.java
+│   └── resources/                                   # Production configurations if needed
+│
+└── test/
+    ├── java/
+    │   └── com/
+    │       └── ahaviss/                             # Root test package matching main source
+    │           ├── GeometricalCalcTests.java        # Geometry JUnit Parameterized test suite
+    │           ├── TestUtils.java                   # Terminal/Scanner testing mocking utilities
+    │           └── generators/                      # Dedicated package for data generation utilities
+    │               ├── GenerateAllData.java         # Master coordination script 
+    │               ├── SciCalcDataGenerator.java
+    │               ├── TwoDDataGenerator.java
+    │               ├── ThreeDDataGeneratorSA.java
+    │               └── ThreeDDataGeneratorVolume.java
+    └── resources/                                   # Target location for generated source arrays
+        ├── scicalcinput.csv
+        ├── 2Dgeocalcinput.csv
+        ├── 3Dgeocalcinputsa.csv
+        └── 3Dgeocalcinputvolume.csv
 ```
 
 ---
@@ -97,24 +119,12 @@ src/
 ## Getting Started
 
 ### Requirements
-- Java 8 or higher
-- Any IDE or terminal with `javac` available
+- Java 21 or higher
+- Any IDE or terminal with `mvn test` and `mvn compile` available
 
 ### Compile
 
-From the `src/` directory:
-
-```bash
-javac -d out $(find . -name "*.java")
-```
-
-### Run
-
-```bash
-java -cp out main.Main
-```
-
----
+From the `src/` directory
 
 ## Usage
 
