@@ -17,6 +17,9 @@ public class ShapeLogic2D {
                         throw new CalculationException("Overflow");
                     }
                     System.out.printf("Area of the circle: ~%.2f %s²%n", circleArea, metric);
+                    ProjectUtils.checkDecimal(circleArea);
+                    HistoryManager.setPrev(circleArea);
+                    break;
                 }
                 else if (radiusOrDiameter.equalsIgnoreCase("diameter")) {
                     double diameter = ProjectUtils.getValidDouble("Please enter the diameter of the circle", true);

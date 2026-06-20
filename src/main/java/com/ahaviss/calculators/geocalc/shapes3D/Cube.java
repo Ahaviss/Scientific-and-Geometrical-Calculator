@@ -7,11 +7,11 @@ public class Cube extends Shape3D {
     }
     @Override
     public double volume() {
-        return Math.pow(edge, 3);
+        return edge * edge * edge;
     }
 
     @Override
     public double surfaceArea() {
-        return (Math.pow(edge, 2) * 6);
+        return edge * edge * 6;
     }
 }

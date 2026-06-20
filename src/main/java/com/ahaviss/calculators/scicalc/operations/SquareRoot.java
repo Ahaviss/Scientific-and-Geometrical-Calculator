@@ -29,10 +29,10 @@ public class SquareRoot {
                 if (userInput < 0) {
                     double absoluteValue = Math.abs(userInput);
                     root = Math.sqrt(absoluteValue);
-                    System.out.printf("The square root of %.2f is %.2f i.\n", userInput, root);
+                    System.out.printf("Result: %.2f i\n", root);
                 } else {
                     root = Math.sqrt(userInput);
-                    System.out.printf("The square root of %.2f is %.2f.\n", userInput, root);
+                    System.out.printf("Result: %.2f%n", root);
                 }
                 HistoryManager.addHistory(new History(CalculatorType.SCIENTIFIC, TypeOfCalculation.SQUARE_ROOT, root));
                 ProjectUtils.checkDecimal(root);

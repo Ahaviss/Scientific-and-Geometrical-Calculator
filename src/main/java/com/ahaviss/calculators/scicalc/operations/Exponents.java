@@ -42,7 +42,7 @@ public class Exponents {
                 double base = numbers[0];
                 double exponent = numbers[1];
                 double result = function.calculate(numbers);
-                System.out.printf("%.2f to the power %.2f is %.2f\n", base, exponent, result);
+                System.out.printf("%.2f to the power %.2f is %.2f%n", base, exponent, result);
                 ProjectUtils.checkDecimal(result);
                 HistoryManager.setPrev(result);
                 HistoryManager.addHistory(new History(CalculatorType.SCIENTIFIC, TypeOfCalculation.EXPONENTS, result));

@@ -143,3 +143,11 @@ In the scientific calculator, you can type `prev` as an input to reuse the resul
 ## License
 
 Read LICENSE
+
+## Updates
+
+* MAJOR:
+  * Moved build tool to Maven
+  * Added a robust JUnit testing suite with fake input generators.
+  * JUnit tests both scientfic and geometrical calculators.
+

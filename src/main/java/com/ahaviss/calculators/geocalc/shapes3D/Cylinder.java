@@ -16,6 +16,6 @@ public class Cylinder extends Shape3D {
 
     @Override
     public double surfaceArea() {
-        return ((2 * (Math.pow(radiusOrDiameter == RadiusOrDiameter.DIAMETER ? variable : (variable / 2), 2) * Math.PI)) + (height * (Math.PI) * (radiusOrDiameter == RadiusOrDiameter.RADIUS ? (variable * 2) : variable)));
+        return ((2 * Math.pow(radiusOrDiameter == RadiusOrDiameter.RADIUS ? variable : (variable / 2), 2) * Math.PI)) + (height * Math.PI * (radiusOrDiameter == RadiusOrDiameter.RADIUS ? (variable * 2) : variable));
     }
 }

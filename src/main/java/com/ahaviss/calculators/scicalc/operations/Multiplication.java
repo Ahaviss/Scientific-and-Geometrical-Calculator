@@ -8,7 +8,7 @@ import com.ahaviss.utils.ProjectUtils;
 
 public class Multiplication {
     private static final MultiDoubleFunction function = (double... array) -> {
-        double product = 0;
+        double product = 1;
         for (double number : array) {product *= number;}
         if (!Double.isFinite(product)) {
             throw new CalculationException("Overflow.");

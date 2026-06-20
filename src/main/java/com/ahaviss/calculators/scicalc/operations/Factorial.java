@@ -34,7 +34,7 @@ public class Factorial {
                 else {userInput = Long.parseLong(tempNumbers);}
                 if (userInput >= 0) {
                     long result = function.calculate(userInput);
-                    System.out.printf("The result is %d.\n", result);
+                    System.out.printf("Result: %d.%n", result);
                     HistoryManager.setPrev((double) result);
                     HistoryManager.addHistory(new History(CalculatorType.SCIENTIFIC, TypeOfCalculation.FACTORIAL, (double) result));
                 } else {

@@ -8,5 +8,5 @@ public class Circle extends Shape2D {
         this.variable = variable;
     }
     @Override
-    public double area () {return radiusOrDiameter == RadiusOrDiameter.RADIUS ? (Math.pow(variable, 2) * Math.PI) : (Math.pow((variable / 2), 2) * Math.PI);}
+    public double area () {return radiusOrDiameter == RadiusOrDiameter.RADIUS ? (variable * variable * Math.PI) : ((variable / 2) * (variable / 2) * Math.PI);}
 }

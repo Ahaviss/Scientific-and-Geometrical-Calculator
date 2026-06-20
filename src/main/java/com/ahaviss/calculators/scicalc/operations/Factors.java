@@ -23,7 +23,7 @@ public class Factors {
                 }
             }
         }
-        System.out.printf("This number has %d factors.\n", numberOfFactors);
+        System.out.printf("This number has %d factors.%n", numberOfFactors);
         if (numberOfFactors == 2) {
             System.out.println("This number is a prime number.");
         } else if (numberOfFactors == 0) {

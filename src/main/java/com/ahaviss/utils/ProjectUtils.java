@@ -2,10 +2,12 @@ package com.ahaviss.utils;
 
 import com.ahaviss.history.HistoryManager;
 
+import java.util.Locale;
 import java.util.Scanner;
 
 public class ProjectUtils {
-    private static final Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
+    static {scanner.useLocale(Locale.CANADA);}
     public static int getValidInt (String prompt, boolean checkBelow0) {
         while (true) {
             try {

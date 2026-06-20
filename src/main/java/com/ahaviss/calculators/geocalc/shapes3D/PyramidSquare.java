@@ -10,11 +10,11 @@ public class PyramidSquare extends Shape3D {
 
     @Override
     public double volume() {
-        return ((Math.pow(edge, 2) * height) / 3);
+        return ((edge * edge * height) / 3);
     }
     @Override
     public double surfaceArea() {
-        double base = Math.pow(edge, 2);
+        double base = edge * edge;
         return ((((edge * height) / 2) * 4) + base);
     }
 }
