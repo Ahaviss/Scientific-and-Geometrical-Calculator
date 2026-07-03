@@ -18,6 +18,7 @@ A Java CLI application that combines a scientific calculator and a geometrical c
 ### Geometrical Calculator
 
 **2D Shapes — Area**
+
 | Shape | Inputs Required |
 |-------|----------------|
 | Circle | Radius or Diameter |
@@ -25,8 +26,8 @@ A Java CLI application that combines a scientific calculator and a geometrical c
 | Square | Side Length |
 | Triangle | Base, Height |
 | Trapezoid | Base 1, Base 2, Height |
-
 **3D Shapes — Volume and Surface Area**
+
 | Shape | Inputs Required |
 |-------|----------------|
 | Cube | Side Length |
@@ -160,4 +161,5 @@ Read LICENSE
   * Moved build tool to Maven
   * Added a robust JUnit testing suite with fake input generators.
   * JUnit tests both scientfic and geometrical calculators.
+* MAJOR: Using BigDecimal and BigInteger instead of double and long for precision and to prevent overflow.
 
