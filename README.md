@@ -19,23 +19,23 @@ A Java CLI application that combines a scientific calculator and a geometrical c
 
 **2D Shapes — Area**
 
-| Shape | Inputs Required |
-|-------|----------------|
-| Circle | Radius or Diameter |
-| Rectangle | Length, Width |
-| Square | Side Length |
-| Triangle | Base, Height |
+| Shape     | Inputs Required        |
+|-----------|------------------------|
+| Circle    | Radius or Diameter     |
+| Rectangle | Length, Width          |
+| Square    | Side Length            |
+| Triangle  | Base, Height           |
 | Trapezoid | Base 1, Base 2, Height |
 
 **3D Shapes — Volume and Surface Area**
 
-| Shape | Inputs Required |
-|-------|----------------|
-| Cube | Side Length |
-| Cylinder | Radius or Diameter, Height |
-| Square-Based Pyramid | Base Side, Height |
-| Rectangular Prism | Length, Width, Height |
-| Triangular Prism | Base, Height, Length |
+| Shape                | Inputs Required            |
+|----------------------|----------------------------|
+| Cube                 | Side Length                |
+| Cylinder             | Radius or Diameter, Height |
+| Square-Based Pyramid | Base Side, Height          |
+| Rectangular Prism    | Length, Width, Height      |
+| Triangular Prism     | Base, Height, Length       |
 
 - Accepts metric labels (cm, m, ft, in) and appends them to output
 - Optional decimal precision control on any result
