@@ -1,29 +1,34 @@
 package com.ahaviss.calculators.geocalc.shapes3D;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+
 public class TrianglePrism extends Shape3D {
-    private final double height;
-    private final double base;
-    private double side2 = 0;
-    private double side3 = 0;
-    private final double length;
-    public TrianglePrism(double height, double base, double side2, double side3, double length) {
+    private final BigDecimal height;
+    private final BigDecimal base;
+    private BigDecimal side2 = BigDecimal.ZERO;
+    private BigDecimal side3 = BigDecimal.ZERO;
+    private final BigDecimal length;
+    public TrianglePrism(BigDecimal height, BigDecimal base, BigDecimal side2, BigDecimal side3, BigDecimal length) {
         this.height = height;
         this.base = base;
         this.length = length;
         this.side2 = side2;
         this.side3 = side3;
     }
-    public TrianglePrism (double height, double base, double length) {
+    public TrianglePrism (BigDecimal height, BigDecimal base, BigDecimal length) {
         this.height = height;
         this.base = base;
         this.length = length;
     }
     @Override
-    public double volume() {
-        return (((base * height) / 2) * length);
+    public BigDecimal volume() {
+        return (base.multiply(height).divide(BigDecimal.TWO, MathContext.DECIMAL128).multiply(length)).stripTrailingZeros();
     }
     @Override
-    public double surfaceArea () {
-        return ((base * height) + ((base + side2 + side3) * length));
+    public BigDecimal surfaceArea () {
+        BigDecimal sidesAdded = base.add(side2).add(side3);
+        BigDecimal triangles = base.multiply(height);
+        return (triangles.add(sidesAdded.multiply(length))).stripTrailingZeros();
     }
 }

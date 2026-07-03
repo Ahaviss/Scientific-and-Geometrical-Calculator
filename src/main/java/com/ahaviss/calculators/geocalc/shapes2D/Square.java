@@ -1,10 +1,12 @@
 package com.ahaviss.calculators.geocalc.shapes2D;
 
+import java.math.BigDecimal;
+
 public class Square extends Shape2D {
-    private final double sideLength;
-    public Square (double sideLength) {
+    private final BigDecimal sideLength;
+    public Square (BigDecimal sideLength) {
         this.sideLength = sideLength;
     }
     @Override
-    public double area () {return sideLength * sideLength;}
+    public BigDecimal area () {return sideLength.multiply(sideLength).stripTrailingZeros();}
 }

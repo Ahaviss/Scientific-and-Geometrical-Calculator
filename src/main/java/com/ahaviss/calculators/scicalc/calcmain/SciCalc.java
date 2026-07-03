@@ -1,13 +1,14 @@
 package com.ahaviss.calculators.scicalc.calcmain;
 
-import java.util.ArrayList;
+import java.util.List;
+
 import com.ahaviss.utils.ProjectUtils;
 import com.ahaviss.history.*;
 import com.ahaviss.calculators.scicalc.operations.*;
 public class SciCalc {
     public static void history () {
         System.out.println("History:");
-        ArrayList<History> history = HistoryManager.getHistory();
+        List<History> history = HistoryManager.getHistory();
         int size = history.size();
         for (int i = 0; i < size; i++) {
             System.out.printf("%d.", i);

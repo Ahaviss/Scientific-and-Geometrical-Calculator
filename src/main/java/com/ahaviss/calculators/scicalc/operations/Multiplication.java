@@ -1,19 +1,18 @@
 package com.ahaviss.calculators.scicalc.operations;
 
-import com.ahaviss.exceptions.CalculationException;
-import com.ahaviss.calculators.scicalc.functions.MultiDoubleFunction;
+import com.ahaviss.calculators.scicalc.functions.MultiBigDecimalFunction;
 import com.ahaviss.history.*;
 import com.ahaviss.enums.*;
 import com.ahaviss.utils.ProjectUtils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class Multiplication {
-    private static final MultiDoubleFunction function = (double... array) -> {
-        double product = 1;
-        for (double number : array) {product *= number;}
-        if (!Double.isFinite(product)) {
-            throw new CalculationException("Overflow.");
-        }
-        return product;
+    private static final MultiBigDecimalFunction function = array -> {
+        BigDecimal product = BigDecimal.ONE;
+        for (BigDecimal number : array) {product = product.multiply(number);}
+        return product.stripTrailingZeros();
     };
     private static void printHelp () {
         System.out.println("Multiplication");
@@ -28,20 +27,17 @@ public class Multiplication {
                 String tempNumbers = ProjectUtils.getValidString("Please enter all numbers followed by a space (\"4 5 6\")");
                 if (tempNumbers.trim().equalsIgnoreCase("exit")) return;
                 if (tempNumbers.trim().equalsIgnoreCase("help")) {printHelp(); continue;}
-                double[] numbers = ProjectUtils.stringToDoubleArray(tempNumbers, HistoryManager.getPrev());
+                BigDecimal[] numbers = ProjectUtils.stringToBigDecimalArray(tempNumbers, HistoryManager.getPrev());
                 if (numbers == null) continue;
                 if (numbers.length < 2) {
                     System.out.println("Please enter at least two numbers followed by a space (\" \")");
                     continue;
                 }
-                double product = function.calculate(numbers);
+                BigDecimal product = function.calculate(numbers);
                 HistoryManager.addHistory(new History(CalculatorType.SCIENTIFIC, TypeOfCalculation.MULTIPLICATION, product));
-                System.out.printf("Result: %.2f%n", product);
+                System.out.printf("Result: %s%n", product.setScale(2, RoundingMode.HALF_EVEN).toPlainString());
                 ProjectUtils.checkDecimal(product);
                 HistoryManager.setPrev(product);
-            }
-            catch (CalculationException e) {
-                System.out.println(e.getMessage());
             }
             catch (NumberFormatException e) {
                 System.out.println("Invalid input. Skipping current input...");

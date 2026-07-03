@@ -4,6 +4,10 @@ import com.ahaviss.history.*;
 import com.ahaviss.enums.*;
 import com.ahaviss.utils.ProjectUtils;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+
 public class SquareRoot {
     private static void printHelp () {
         System.out.println("Square Root");
@@ -18,21 +22,17 @@ public class SquareRoot {
                 String tempNumbers = ProjectUtils.getValidString("Please enter a number to find the square root of.");
                 if (tempNumbers.trim().equalsIgnoreCase("exit")) return;
                 if (tempNumbers.trim().equalsIgnoreCase("help")) {printHelp(); continue;}
-                double userInput;
+                BigDecimal userInput;
                 if (tempNumbers.equalsIgnoreCase("prev")) {userInput = HistoryManager.getPrev();}
-                else {userInput =  Double.parseDouble(tempNumbers);}
-                double root;
-                if (!Double.isFinite(userInput)) {
-                    System.out.println("Overflow.");
-                    return;
-                }
-                if (userInput < 0) {
-                    double absoluteValue = Math.abs(userInput);
-                    root = Math.sqrt(absoluteValue);
-                    System.out.printf("Result: %.2f i\n", root);
+                else {userInput = new BigDecimal(tempNumbers);}
+                BigDecimal root;
+                if (userInput.compareTo(BigDecimal.ZERO) < 0) {
+                    BigDecimal absoluteValue = userInput.abs();
+                    root = absoluteValue.sqrt(new MathContext(34, RoundingMode.HALF_EVEN)).stripTrailingZeros();
+                    System.out.printf("Result: %s i\n", root.setScale(2, RoundingMode.HALF_EVEN).toPlainString());
                 } else {
-                    root = Math.sqrt(userInput);
-                    System.out.printf("Result: %.2f%n", root);
+                    root = userInput.sqrt(new MathContext(34, RoundingMode.HALF_EVEN)).stripTrailingZeros();
+                    System.out.printf("Result: %s%n", root.setScale(2, RoundingMode.HALF_EVEN).toPlainString());
                 }
                 HistoryManager.addHistory(new History(CalculatorType.SCIENTIFIC, TypeOfCalculation.SQUARE_ROOT, root));
                 ProjectUtils.checkDecimal(root);

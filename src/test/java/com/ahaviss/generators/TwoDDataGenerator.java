@@ -5,9 +5,12 @@ import com.ahaviss.utils.ProjectUtils;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.MathContext;
 import java.util.Locale;
 import java.util.Random;
+import java.math.BigDecimal;
 
+import static com.ahaviss.generators.utils.GeneratorUtils.*;
 public class TwoDDataGenerator {
     public static void main(String[] args) {
         String filePath = "src/test/resources/2Dgeocalcinput.csv";
@@ -20,37 +23,37 @@ public class TwoDDataGenerator {
             writer.println("inputA,inputB,inputC,shape,expectedResult");
             for (int i = 0; i < amountOfData; i++) {
                 String shape = shapes[rng.nextInt(shapes.length)];
-                double a = 0;
-                double b = 0;
-                double c = 0;
-                double expected = 0;
+                BigDecimal a = BigDecimal.ZERO;
+                BigDecimal b = BigDecimal.ZERO;
+                BigDecimal c = BigDecimal.ZERO;
+                BigDecimal expected = BigDecimal.ZERO;
                 switch (shape) {
                     case "cir" -> {
-                        a = 10 + (rng.nextDouble() * (100 - 10));
-                        expected = Math.PI * a * a;
+                        a = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        expected = PI.multiply(a).multiply(a);
                     }
                     case "sq" -> {
-                        a = 10 + (rng.nextDouble() * (100 - 10));
-                        expected = a * a;
+                        a = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        expected = a.multiply(a);
                     }
                     case "rect" -> {
-                        a = 10 + (rng.nextDouble() * (100 - 10));
-                        b = 10 + (rng.nextDouble() * (100 - 10));
-                        expected = a * b;
+                        a = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        b = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        expected = a .multiply(b);
                     }
                     case "trap" -> {
-                        a = 10 + (rng.nextDouble() * (100 - 10));
-                        b = 10 + (rng.nextDouble() * (100 - 10));
-                        c = 10 + (rng.nextDouble() * (100 - 10));
-                        expected = (a + b) / 2 * c;
+                        a = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        b = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        c = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        expected = a.add(b).divide(BigDecimal.TWO, MathContext.DECIMAL128).multiply(c);
                     }
                     case "tri" -> {
-                        a = 10 + (rng.nextDouble() * (100 - 10));
-                        b = 10 + (rng.nextDouble() * (100 - 10));
-                        expected = a * b / 2;
+                        a = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        b = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        expected = a.multiply(b).divide(BigDecimal.TWO, MathContext.DECIMAL128);
                     }
                 }
-                writer.printf(Locale.CANADA, "%f,%f,%f,%s,%f%n", a, b, c, shape, expected);
+                writer.printf(Locale.CANADA, "%s,%s,%s,%s,%s%n", a.stripTrailingZeros().toPlainString(), b.stripTrailingZeros().toPlainString(), c.stripTrailingZeros().toPlainString(), shape, expected.stripTrailingZeros().toPlainString());
             }
             System.out.println("2D Generator: Successfully generated " + amountOfData + " random cases in: " + filePath);
 

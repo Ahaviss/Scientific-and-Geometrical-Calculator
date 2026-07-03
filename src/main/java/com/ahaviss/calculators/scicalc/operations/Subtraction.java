@@ -1,20 +1,19 @@
 package com.ahaviss.calculators.scicalc.operations;
 
-import com.ahaviss.exceptions.CalculationException;
-import com.ahaviss.calculators.scicalc.functions.MultiDoubleFunction;
+import com.ahaviss.calculators.scicalc.functions.MultiBigDecimalFunction;
 import com.ahaviss.history.*;
 import com.ahaviss.enums.*;
 import com.ahaviss.utils.ProjectUtils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class Subtraction {
-    private static final MultiDoubleFunction function = (double... array) -> {
-        double difference = array[0];
+    private static final MultiBigDecimalFunction function = array -> {
+        BigDecimal difference = array[0];
         int length = array.length;
-        for (int i = 1; i < length; i++) {difference -= array[i];}
-        if (!Double.isFinite(difference)) {
-            throw new CalculationException("Overflow.");
-        }
-        return difference;
+        for (int i = 1; i < length; i++) {difference = difference.subtract(array[i]);}
+        return difference.stripTrailingZeros();
     };
     private static void printHelp () {
         System.out.println("Subtraction");
@@ -29,15 +28,15 @@ public class Subtraction {
                 String tempNumbers = ProjectUtils.getValidString("Please enter all numbers followed by a space (\"4 5 6\")");
                 if (tempNumbers.trim().equalsIgnoreCase("exit")) return;
                 if (tempNumbers.trim().equalsIgnoreCase("help")) {printHelp(); continue;}
-                double[] numbers = ProjectUtils.stringToDoubleArray(tempNumbers, HistoryManager.getPrev());
+                BigDecimal[] numbers = ProjectUtils.stringToBigDecimalArray(tempNumbers, HistoryManager.getPrev());
                 if (numbers == null) continue;
                 if (numbers.length < 2) {
                     System.out.println("Please enter at least two numbers followed by a space (\" \")");
                     continue;
                 }
-                double difference = function.calculate(numbers);
+                BigDecimal difference = function.calculate(numbers);
                 HistoryManager.addHistory(new History(CalculatorType.SCIENTIFIC, TypeOfCalculation.SUBTRACTION, difference));
-                System.out.printf("Result: %.2f%n", difference);
+                System.out.printf("Result: %s%n", difference.setScale(2, RoundingMode.HALF_EVEN).toPlainString());
                 ProjectUtils.checkDecimal(difference);
                 HistoryManager.setPrev(difference);
             }

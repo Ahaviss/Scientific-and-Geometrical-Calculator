@@ -1,6 +1,7 @@
 package com.ahaviss.calculators.scicalc.operations;
 
-import com.ahaviss.calculators.scicalc.functions.LongFunction;
+import java.math.BigDecimal;
+import java.util.function.LongFunction;
 import com.ahaviss.history.*;
 import com.ahaviss.utils.ProjectUtils;
 import com.ahaviss.enums.*;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 public class Factors {
-    private static final LongFunction function = (long number) -> {
+    private static final LongFunction<Long> function = number -> {
         final List<Long> factors = new ArrayList<>();
         long numberOfFactors = 0;
         for (long i = 1; i * i <= number; i++) {
@@ -60,13 +61,13 @@ public class Factors {
                 if (tempNumbers.trim().equalsIgnoreCase("help")) {printHelp(); continue;}
                 long userInput;
                 if (tempNumbers.trim().equalsIgnoreCase("prev")) {
-                    userInput = (long) HistoryManager.getPrev();
+                    userInput = HistoryManager.getPrev().longValue();
                 }
                 else {
                     userInput = Long.parseLong(tempNumbers);
                 }
-                long numberOfFactors = function.calculate(userInput);
-                HistoryManager.addHistory(new History(CalculatorType.SCIENTIFIC, TypeOfCalculation.FACTORS, numberOfFactors));
+                long numberOfFactors = function.apply(userInput);
+                HistoryManager.addHistory(new History(CalculatorType.SCIENTIFIC, TypeOfCalculation.FACTORS, new BigDecimal(numberOfFactors)));
             }
             catch (NumberFormatException e) {
                 System.out.println("Invalid number format: " + e.getMessage());

@@ -2,6 +2,8 @@ package com.ahaviss.utils;
 
 import com.ahaviss.history.HistoryManager;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -50,21 +52,17 @@ public class ProjectUtils {
             }
         }
     }
-    public static double getValidDouble (String prompt, boolean checkBelow0) {
+    public static BigDecimal getValidBigDecimal (String prompt, boolean checkBelow0) {
         while (true) {
             try {
                 //Prints the given prompt
                 System.out.println(prompt);
                 String tempInput = scanner.nextLine().trim();
                 if (tempInput.equalsIgnoreCase("prev")) return HistoryManager.getPrev();
-                double input = Double.parseDouble(tempInput);
+                BigDecimal input = new BigDecimal(tempInput);
                 //Checks if the input is positive and hasn't overflowed
-                if (Double.isNaN(input) || !Double.isFinite(input)) {
-                    System.out.println("Invalid input. Please enter a positive number.");
-                    continue;
-                }
                 if (checkBelow0) {
-                    if (input < 0) {
+                    if (input.compareTo(BigDecimal.ZERO) < 0) {
                         System.out.println("Number cannot be below 0.");
                         continue;
                     }
@@ -81,14 +79,14 @@ public class ProjectUtils {
             }
         }
     }
-    public static void checkDecimal (double answer) {
-        if (Math.abs(answer - Math.round(answer)) > 0.0000001) {
+    public static void checkDecimal (BigDecimal answer) {
+        if (answer.stripTrailingZeros().scale() > 2) {
             preciseDecimal(answer);
         }
     }
-    public static void preciseDecimal (double answer) {
+    public static void preciseDecimal (BigDecimal answer) {
         while (true) {
-            String option = getValidString("Would you like to have a specific decimal amount? (y/n)");
+            String option = getValidString("Would you like to have more than two decimal places? (y/n)");
 
             if (option.equalsIgnoreCase("n")) {
                 return;
@@ -99,16 +97,13 @@ public class ProjectUtils {
             }
         }
         while (true) {
-            String decimalOption = getValidString("Would you like a specific decimal or the entire number?");
+            String decimalOption = getValidString("Would you like a specific amount of decimal places or the entire number?\n(specific amount/entire number)");
             if (decimalOption.equalsIgnoreCase("specific decimal")) {
                 int amountOfDecimals = getValidInt("How many decimals?", true);
-                long amountToMultiply = (long) Math.pow(10, amountOfDecimals);
-                double tempValue = Math.round(answer * amountToMultiply);
-                double returnValue = tempValue / amountToMultiply;
-                System.out.printf("The new value is %f.\n", returnValue);
+                System.out.printf("The new value is %s\n", answer.setScale(amountOfDecimals, RoundingMode.HALF_EVEN).stripTrailingZeros().toPlainString());
                 return;
             } else if (decimalOption.equalsIgnoreCase("entire number")) {
-                System.out.printf("The new value is %f.\n", answer);
+                System.out.printf("The new value is %s\n", answer.toPlainString());
                 return;
             } else {
                 System.out.println("Invalid Input, please try again");
@@ -116,7 +111,7 @@ public class ProjectUtils {
         }
 
     }
-    public static double[] stringToDoubleArray (String input, double prev) {
+    public static BigDecimal[] stringToBigDecimalArray (String input, BigDecimal prev) {
         try {
             String[] numbers = input.split("\\s+");
             int length = numbers.length;
@@ -124,7 +119,7 @@ public class ProjectUtils {
                 System.out.println("Invalid input. Numbers are empty");
                 return null;
             }
-            double[] numbersToReturn = new double[length];
+            BigDecimal[] numbersToReturn = new BigDecimal[length];
             for (int i = 0; i < length; i++) {
                 numbers[i] = numbers[i].trim();
                 if (numbers[i] == null || numbers[i].isEmpty()) {
@@ -135,7 +130,7 @@ public class ProjectUtils {
                     numbersToReturn[i] = prev;
                     continue;
                 }
-                numbersToReturn[i] = Double.parseDouble(numbers[i]);
+                numbersToReturn[i] = new BigDecimal(numbers[i]);
             }
             return numbersToReturn;
         }

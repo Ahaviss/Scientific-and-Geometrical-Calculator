@@ -1,22 +1,27 @@
 package com.ahaviss.calculators.geocalc.shapes3D;
 
+import java.math.BigDecimal;
+
 public class RecPrism extends Shape3D {
-    private final double width;
-    private final double length;
-    private final double height;
-    public RecPrism(double width, double length, double height) {
+    private final BigDecimal width;
+    private final BigDecimal length;
+    private final BigDecimal height;
+    public RecPrism(BigDecimal width, BigDecimal length, BigDecimal height) {
         this.width = width;
         this.length = length;
         this.height = height;
     }
 
     @Override
-    public double volume() {
-        return (width * length * height);
+    public BigDecimal volume() {
+        return (width.multiply(length).multiply(height)).stripTrailingZeros();
     }
 
     @Override
-    public double surfaceArea() {
-        return 2 * ((width * length) + (width * height) + (length * height));
+    public BigDecimal surfaceArea() {
+        BigDecimal first = width.multiply(length);
+        BigDecimal second = height.multiply(width);
+        BigDecimal third = length.multiply(height);
+        return BigDecimal.valueOf(2).multiply(first.add(second).add(third)).stripTrailingZeros();
     }
 }

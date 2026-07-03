@@ -1,12 +1,14 @@
 package com.ahaviss.calculators.geocalc.shapes2D;
 
+import java.math.BigDecimal;
+
 public class Rectangle extends Shape2D {
-    private final double length;
-    private final double width;
-    public Rectangle(double length, double width) {
+    private final BigDecimal length;
+    private final BigDecimal width;
+    public Rectangle(BigDecimal length, BigDecimal width) {
         this.length = length;
         this.width = width;
     }
     @Override
-    public double area() {return length * width;}
+    public BigDecimal area() {return length.multiply(width).stripTrailingZeros();}
 }

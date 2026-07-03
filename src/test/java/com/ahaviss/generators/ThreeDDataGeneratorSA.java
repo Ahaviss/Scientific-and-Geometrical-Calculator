@@ -5,9 +5,12 @@ import com.ahaviss.utils.ProjectUtils;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Locale;
 import java.util.Random;
-
+import static com.ahaviss.generators.utils.GeneratorUtils.getRandomBigDecimal;
+import static com.ahaviss.generators.utils.GeneratorUtils.PI;
 public class ThreeDDataGeneratorSA {
     public static void main(String[] args) {
         String filePath = "src/test/resources/3Dgeocalcinputsa.csv";
@@ -21,43 +24,52 @@ public class ThreeDDataGeneratorSA {
             writer.println("inputA,inputB,inputC,inputD,inputE,shape,expectedResult");
             for (int i = 0; i < amountOfData; i++) {
                 String shape = shapes[rng.nextInt(shapes.length)];
-                double a = 0;
-                double b = 0;
-                double c = 0;
-                double d = 0;
-                double e = 0;
-                double expected = 0;
+                BigDecimal a = BigDecimal.ZERO;
+                BigDecimal b = BigDecimal.ZERO;
+                BigDecimal c = BigDecimal.ZERO;
+                BigDecimal d = BigDecimal.ZERO;
+                BigDecimal e = BigDecimal.ZERO;
+                BigDecimal expected = BigDecimal.ZERO;
                 switch (shape) {
                     case "cyl" -> {
-                        a = 10 + (rng.nextDouble() * (50 - 10));
-                        b = 10 + (rng.nextDouble() * (50 - 10));
-                        expected = (2 * Math.PI * a * b) + (2 * Math.PI * a * a);
+                        a = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        b = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        BigDecimal lateral = BigDecimal.TWO.multiply(PI).multiply(a).multiply(b);
+                        BigDecimal circles = BigDecimal.TWO.multiply(PI).multiply(a).multiply(a);
+                        expected = lateral.add(circles);
                     }
                     case "cube" -> {
-                        a = 10 + (rng.nextDouble() * (100 - 10));
-                        expected = 6 * a * a;
+                        a = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        expected = BigDecimal.valueOf(6).multiply(a).multiply(a);
                     }
                     case "pysq" -> {
-                        a = 10 + (rng.nextDouble() * (100 - 10));
-                        b = 10 + (rng.nextDouble() * (100 - 10));
-                        expected = (a * b / 2.0 * 4.0) + (a * a);
+                        a = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        b = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        BigDecimal triangles = a.multiply(b).divide(BigDecimal.TWO, MathContext.DECIMAL128).multiply(BigDecimal.valueOf(4));
+                        BigDecimal square = a.multiply(a);
+                        expected = triangles.add(square);
                     }
                     case "recp" -> {
-                        a = 10 + (rng.nextDouble() * (100 - 10));
-                        b = 10 + (rng.nextDouble() * (100 - 10));
-                        c = 10 + (rng.nextDouble() * (100 - 10));
-                        expected = 2 * ((a * b) + (a * c) + (b * c));
+                        a = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        b = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        c = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        BigDecimal rect1 = a.multiply(b);
+                        BigDecimal rect2 = a.multiply(c);
+                        BigDecimal rect3 = b.multiply(c);
+                        expected = rect1.add(rect2).add(rect3).multiply(BigDecimal.TWO);
                     }
                     case "trip" -> {
-                        a = 10 + (rng.nextDouble() * (100 - 10));
-                        b = 10 + (rng.nextDouble() * (100 - 10));
-                        c = 10 + (rng.nextDouble() * (100 - 10));
-                        d = 10 + (rng.nextDouble() * (100 - 10));
-                        e = 10 + (rng.nextDouble() * (100 - 10));
-                        expected = (a * b) + ((b + d + e) * c);
+                        a = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        b = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        c = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        d = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        e = getRandomBigDecimal(BigDecimal.valueOf(1000), BigDecimal.valueOf(10000000), 4);
+                        BigDecimal rectangles = b.add(d).add(e).multiply(c);
+                        BigDecimal triangles = a.multiply(b);
+                        expected = triangles.add(rectangles);
                     }
                 }
-                writer.printf(Locale.CANADA, "%f,%f,%f,%f,%f,%s,%f%n", a, b, c, d, e, shape, expected);
+                writer.printf(Locale.CANADA, "%s,%s,%s,%s,%s,%s,%s%n", a.stripTrailingZeros().toPlainString(), b.stripTrailingZeros().toPlainString(), c.stripTrailingZeros().toPlainString(), d.stripTrailingZeros().toPlainString(), e.stripTrailingZeros().toPlainString(), shape, expected.stripTrailingZeros().toPlainString());
             }
             System.out.println("3D Surface Area Generator: Successfully generated " + amountOfData + " random cases in: " + filePath);
 

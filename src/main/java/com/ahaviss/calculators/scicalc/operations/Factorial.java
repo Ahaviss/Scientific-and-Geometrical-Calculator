@@ -1,20 +1,25 @@
 package com.ahaviss.calculators.scicalc.operations;
 
-import com.ahaviss.exceptions.CalculationException;
-import com.ahaviss.calculators.scicalc.functions.LongFunction;
 import com.ahaviss.history.*;
 import com.ahaviss.utils.ProjectUtils;
 import com.ahaviss.enums.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.function.LongFunction;
+import java.util.stream.LongStream;
+
 public class Factorial {
-    private static final LongFunction function = (long number) -> {
-        long result = 1;
-        for (long i = 1; i <= number; i++) {
-            if (result > Long.MAX_VALUE / i) {
-                throw new CalculationException("Factorial is too large");
-            }
-            result *= i;
+    private static final LongFunction<BigInteger> function = number -> {
+        if (number > 600000) {
+            String answer = ProjectUtils.getValidString("Factorials over 600000 can take seconds, minutes, hours, or more (depending on size)\nContinue? Y/N");
+            if (answer.equalsIgnoreCase("N")) {return null;}
+            System.out.println("Proceeding (May take a while)...");
         }
-        return result;
+        return LongStream.rangeClosed(1, number)
+                .parallel()
+                .mapToObj(BigInteger::valueOf)
+                .reduce(BigInteger.ONE, BigInteger::multiply);
     };
     private static void printHelp () {
         System.out.println("Factorial");
@@ -30,19 +35,18 @@ public class Factorial {
                 if (tempNumbers.trim().equalsIgnoreCase("exit")) return;
                 if (tempNumbers.trim().equalsIgnoreCase("help")) {printHelp(); continue;}
                 long userInput;
-                if (tempNumbers.equalsIgnoreCase("prev")) {userInput = (long) HistoryManager.getPrev();}
+                if (tempNumbers.equalsIgnoreCase("prev")) {userInput = HistoryManager.getPrev().longValue();}
                 else {userInput = Long.parseLong(tempNumbers);}
                 if (userInput >= 0) {
-                    long result = function.calculate(userInput);
+                    BigInteger result = function.apply(userInput);
+                    if (result == null) continue;
                     System.out.printf("Result: %d.%n", result);
-                    HistoryManager.setPrev((double) result);
-                    HistoryManager.addHistory(new History(CalculatorType.SCIENTIFIC, TypeOfCalculation.FACTORIAL, (double) result));
+                    BigDecimal bigDecimal = new BigDecimal(result);
+                    HistoryManager.setPrev(bigDecimal);
+                    HistoryManager.addHistory(new History(CalculatorType.SCIENTIFIC, TypeOfCalculation.FACTORIAL, bigDecimal));
                 } else {
                     System.out.println("Error: Please enter a positive number.");
                 }
-            }
-            catch (CalculationException e) {
-                System.out.println(e.getMessage());
             }
             catch (NumberFormatException e) {
                 System.out.println("Invalid number format: " + e.getMessage());

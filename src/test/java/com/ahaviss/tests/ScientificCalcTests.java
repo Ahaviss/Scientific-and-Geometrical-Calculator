@@ -8,6 +8,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
+import java.math.BigDecimal;
 import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.*;
@@ -31,20 +32,20 @@ class ScientificCalcTests {
         TestUtils.resetEnvironment();
     }
     @ParameterizedTest
-    @CsvFileSource(resources = "/scicalcinput.csv", numLinesToSkip = 1)
+    @CsvFileSource(resources = "/scicalcinput.csv", numLinesToSkip = 1, maxCharsPerColumn = 50000)
     @DisplayName("Test All Operations")
-    void testAllOperations(double input1, double input2, String operator, double expected) {
+    void testAllOperations(BigDecimal input1, BigDecimal input2, String operator, BigDecimal expected) {
         String simulatedInput;
         switch (operator) {
             case "!" ->
                 // Factorials MUST be clean integers without trailing decimals (e.g. "3")
-                    simulatedInput = String.format(Locale.CANADA, "%.0f\nn\nexit\n", input1);
+                    simulatedInput = String.format(Locale.CANADA, "%s\nn\nexit\n", input1.longValue());
 
             case "sqrt" ->
                 // Square roots want standard floating point layout
-                    simulatedInput = String.format(Locale.CANADA, "%f\nn\nexit\n", input1);
+                    simulatedInput = String.format(Locale.CANADA, "%s\nn\nexit\n", input1.toPlainString());
             case "-", "^", "*", "+", "/" ->
-                    simulatedInput = String.format(Locale.CANADA, "%f %f\nn\nexit\n", input1, input2);
+                    simulatedInput = String.format(Locale.CANADA, "%s %s\nn\nexit\n", input1.toPlainString(), input2.toPlainString());
 
             default ->
                     throw new IllegalArgumentException("Unknown operator " + operator);
@@ -63,21 +64,21 @@ class ScientificCalcTests {
         String actualOutput = TestUtils.getOutput();
         if (operator.equals("^")) {
             String expectedText;
-            expectedText = String.format(Locale.CANADA, "is %.2f", expected);
+            expectedText = String.format(Locale.CANADA, "is %s", expected.toPlainString());
             assertThat(actualOutput).as("Exponent assertion failed").contains(expectedText);
         }
         else if (operator.equals("!")) {
-            String expectedText = String.format(Locale.CANADA, "%.0f", expected);
+            String expectedText = String.format(Locale.CANADA, "%s", expected.toBigInteger());
             assertThat(actualOutput).as("Factorial assertion failed").contains(expectedText);
         }
         else {
             int resultIndex = actualOutput.indexOf("Result: ") + 8;
             int lineEndIndex = actualOutput.indexOf("\n", resultIndex);
             String resultLine = actualOutput.substring(resultIndex, lineEndIndex).trim();
-            double actualResult = Double.parseDouble(resultLine);
+            BigDecimal actualResult = new BigDecimal(resultLine);
             assertThat(actualResult)
                     .as("Test failed or rounding error for: " + operator)
-                    .isCloseTo(expected, within(0.02));
+                    .isEqualTo(expected);
         }
     }
 }

@@ -1,13 +1,18 @@
 package com.ahaviss.generators;
 
+import ch.obermuhlner.math.big.BigDecimalMath;
 import com.ahaviss.utils.ProjectUtils;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.Locale;
 import java.util.Random;
-
+import static com.ahaviss.generators.utils.GeneratorUtils.getRandomBigDecimal;
 public class SciCalcDataGenerator {
     public static void main(String[] args) {
         String filePath = "src/test/resources/scicalcinput.csv";
@@ -21,59 +26,57 @@ public class SciCalcDataGenerator {
             writer.println("inputA,inputB,operator,expectedResult");
             for (int i = 0; i < amountOfData; i++) {
                 String op = operators[rng.nextInt(operators.length)];
-                double a = 0;
-                double b = 0;
-                double expected = 0;
+                BigDecimal a = BigDecimal.ZERO;
+                BigDecimal b = BigDecimal.ZERO;
+                BigDecimal expected = BigDecimal.ZERO;
 
                 // Handle operation bounds logically so you don't generate math errors
                 switch (op) {
                     case "+" -> {
-                        a = 1000 + (rng.nextDouble() * (1000000 - 1000));
-                        b = 1000 + (rng.nextDouble() * (1000000 - 1000));
-                        expected = a + b;
+                        a = getRandomBigDecimal(new BigDecimal("100000.00"), new BigDecimal("10000000000000.00"), 4);
+                        b = getRandomBigDecimal(new BigDecimal("100000.00"), new BigDecimal("10000000000000.00"), 4);
+                        expected = a.add(b);
                     }
                     case "-" -> {
-                        a = 1000 + (rng.nextDouble() * (1000000 - 1000));
-                        b = 1000 + (rng.nextDouble() * (1000000 - 1000));
-                        expected = a - b;
+                        a = getRandomBigDecimal(new BigDecimal("100000.00"), new BigDecimal("10000000000000.00"), 4);
+                        b = getRandomBigDecimal(new BigDecimal("100000.00"), new BigDecimal("10000000000000.00"), 4);
+                        expected = a.subtract(b);
                     }
                     case "*" -> {
-                        a = 10 + (rng.nextDouble() * (100 - 10));
-                        b = 10 + (rng.nextDouble() * (100 - 10));
-                        expected = a * b;
+                        a = getRandomBigDecimal(new BigDecimal("10000.00"), new BigDecimal("100000000000.00"), 4);
+                        b = getRandomBigDecimal(new BigDecimal("10000.00"), new BigDecimal("100000000000.00"), 4);
+                        expected = a.multiply(b);
                     }
                     case "/" -> {
-                        a = 1000 + (rng.nextDouble() * (100000 - 1000));
-                        b = rng.nextInt(1000) + 1;
-                        expected = a / b;
+                        a = getRandomBigDecimal(new BigDecimal("100000.00"), new BigDecimal("10000000000000.00"), 4);
+                        b = getRandomBigDecimal(new BigDecimal("100000.00"), new BigDecimal("10000000000000.00"), 4);
+                        expected = a.divide(b, MathContext.DECIMAL128);
                     }
                     case "^" -> {
-                        a = rng.nextInt(10) + 1;
-                        b = rng.nextInt(10) + 1;
-                        expected = Math.pow(a, b);
+                        a = getRandomBigDecimal(new BigDecimal("100.00"), new BigDecimal("10000.00"), 4);
+                        b = getRandomBigDecimal(new BigDecimal("100.00"), new BigDecimal("10000.00"), 4);
+                        expected = BigDecimalMath.pow(a, b, MathContext.DECIMAL128);
                     }
                     case "sqrt" -> {
-                        a = 1 + (rng.nextDouble() * (10000 - 100));
-                        b = 0;
-                        expected = Math.sqrt(a);
+                        a = getRandomBigDecimal(new BigDecimal("10000.00"), new BigDecimal("100000000.00"), 4);
+                        expected = a.sqrt(MathContext.DECIMAL128);
                     }
                     case "!" -> {
-                        a = rng.nextInt(20);
-                        b = 0;
-                        expected = calculateFactorial((long) a);
+                        a = new BigDecimal(rng.nextInt(1000, 10000));
+                        expected = new BigDecimal(calculateFactorial(a.longValue()));
                     }
                 }
 
                 // 3. Print the raw calculated row directly into your CSV file
-                writer.printf(Locale.CANADA, "%.4f,%.4f,%s,%.2f%n", a, b, op, expected);
+                writer.printf(Locale.CANADA, "%s,%s,%s,%s%n", a.stripTrailingZeros().toPlainString(), b.stripTrailingZeros().toPlainString(), op, expected.stripTrailingZeros().setScale(2, RoundingMode.HALF_EVEN).toPlainString());
             }
             System.out.println("Scientific Generator: Successfully generated " + amountOfData + " random cases in: " + filePath);
 
         } catch (IOException e) {e.printStackTrace();}
     }
-    private static double calculateFactorial(long n) {
-        double fact = 1;
-        for (long i = 1; i <= n; i++) fact *= i;
+    private static BigInteger calculateFactorial(long n) {
+        BigInteger fact = BigInteger.ONE;
+        for (long i = 1; i <= n; i++) fact = fact.multiply(BigInteger.valueOf(i));
         return fact;
     }
 }

@@ -1,26 +1,26 @@
 package com.ahaviss.calculators.scicalc.operations;
 
 import com.ahaviss.exceptions.CalculationException;
-import com.ahaviss.calculators.scicalc.functions.MultiDoubleFunction;
+import com.ahaviss.calculators.scicalc.functions.MultiBigDecimalFunction;
 import com.ahaviss.history.*;
 import com.ahaviss.enums.*;
 import com.ahaviss.utils.ProjectUtils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class Division {
-    private static final MultiDoubleFunction function = (double... array) -> {
-        double quotient = array[0];
+    private static final MultiBigDecimalFunction function = array -> {
+        BigDecimal quotient = array[0];
         int length = array.length;
         for (int i = 1; i < length; i++) {
-            double tempNumber = array[i];
-            if (tempNumber == 0) {
+            BigDecimal tempNumber = array[i];
+            if (tempNumber.compareTo(BigDecimal.ZERO) == 0) {
                 throw new CalculationException("Division by zero is not allowed.");
             }
-            quotient /= array[i];
+            quotient = quotient.divide(array[i], 34, RoundingMode.HALF_EVEN);
         }
-        if (!Double.isFinite(quotient)) {
-            throw new CalculationException("Overflow.");
-        }
-        return quotient;
+        return quotient.stripTrailingZeros();
     };
     private static void printHelp () {
         System.out.println("Division");
@@ -35,15 +35,15 @@ public class Division {
                 String tempNumbers = ProjectUtils.getValidString("Please enter all numbers followed by a space (\"4 5 6\")");
                 if (tempNumbers.trim().equalsIgnoreCase("exit")) return;
                 if (tempNumbers.trim().equalsIgnoreCase("help")) {printHelp(); continue;}
-                double[] numbers = ProjectUtils.stringToDoubleArray(tempNumbers, HistoryManager.getPrev());
+                BigDecimal[] numbers = ProjectUtils.stringToBigDecimalArray(tempNumbers, HistoryManager.getPrev());
                 if (numbers == null) continue;
                 if (numbers.length < 2) {
                     System.out.println("Please enter at least two numbers followed by a space (\" \")");
                     continue;
                 }
-                double quotient = function.calculate(numbers);
+                BigDecimal quotient = function.calculate(numbers);
                 HistoryManager.addHistory(new History(CalculatorType.SCIENTIFIC, TypeOfCalculation.DIVISION, quotient));
-                System.out.printf("Result: %.2f%n", quotient);
+                System.out.printf("Result: %s%n", quotient.setScale(2, RoundingMode.HALF_EVEN).toPlainString());
                 ProjectUtils.checkDecimal(quotient);
                 HistoryManager.setPrev(quotient);
             }
