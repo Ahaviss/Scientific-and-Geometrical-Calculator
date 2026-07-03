@@ -26,6 +26,7 @@ A Java CLI application that combines a scientific calculator and a geometrical c
 | Square | Side Length |
 | Triangle | Base, Height |
 | Trapezoid | Base 1, Base 2, Height |
+
 **3D Shapes — Volume and Surface Area**
 
 | Shape | Inputs Required |
