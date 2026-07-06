@@ -84,7 +84,7 @@ public class Root {
         int typeOfRootCalculation = ProjectUtils.getValidInt("1 (Square root), 2 (Cube root), 3 (Custom root)", true);
         while (true) {
             try {
-                String tempNumbers = ProjectUtils.getValidString(typeOfRootCalculation == 3 ? "Please enter the index of the root (2 for sqrt, 3 for cbrt) and base followed by a space (\"2 4\")" : "Please enter a number to find the root of");
+                String tempNumbers = ProjectUtils.getValidString(typeOfRootCalculation == 3 ? "Please enter the index of the root (e.g. 2 for sqrt, 3 for cbrt) and base followed by a space (\"2 4\")" : "Please enter a number to find the root of");
                 if (tempNumbers.trim().equalsIgnoreCase("exit")) return;
                 if (tempNumbers.trim().equalsIgnoreCase("help")) {printHelp(); continue;}
                 BigDecimal root;

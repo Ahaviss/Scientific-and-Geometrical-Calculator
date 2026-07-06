@@ -28,8 +28,16 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 
 public class Exponents {
-    private static final MultiBigDecimalFunction function = array ->
-        BigDecimalMath.pow(array[0], array[1], MathContext.DECIMAL128).stripTrailingZeros();
+    private static final MultiBigDecimalFunction function = array -> {
+        BigDecimal base = array[0];
+        BigDecimal exponent = array[1].stripTrailingZeros();
+        if (exponent.scale() <= 0 &&
+                exponent.signum() >= 0 &&
+                exponent.compareTo(BigDecimal.valueOf(Integer.MAX_VALUE)) <= 0) {
+            return base.pow(exponent.intValue()).stripTrailingZeros();
+        }
+        return BigDecimalMath.pow(array[0], array[1], MathContext.DECIMAL128).stripTrailingZeros();
+    };
     private static void printHelp () {
         System.out.println("Exponents");
         System.out.println("\"exit\": exits the current operation.");
