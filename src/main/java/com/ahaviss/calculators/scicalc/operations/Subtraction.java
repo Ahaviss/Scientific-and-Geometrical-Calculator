@@ -22,14 +22,11 @@ import com.ahaviss.utils.ProjectUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Arrays;
 
 public class Subtraction {
-    private static final MultiBigDecimalFunction function = array -> {
-        BigDecimal difference = array[0];
-        int length = array.length;
-        for (int i = 1; i < length; i++) {difference = difference.subtract(array[i]);}
-        return difference.stripTrailingZeros();
-    };
+    private static final MultiBigDecimalFunction function = array ->
+        Arrays.stream(array).reduce(BigDecimal::subtract).get();
     private static void printHelp () {
         System.out.println("Subtraction");
         System.out.println("\"exit\": exits the current operation.");

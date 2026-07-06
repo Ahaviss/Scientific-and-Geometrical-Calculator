@@ -56,9 +56,9 @@ class ScientificCalcTests {
                 // Factorials MUST be clean integers without trailing decimals (e.g. "3")
                     simulatedInput = String.format(Locale.CANADA, "%s\nn\nexit\n", input1.longValue());
 
-            case "sqrt" ->
-                // Square roots want standard floating point layout
-                    simulatedInput = String.format(Locale.CANADA, "%s\nn\nexit\n", input1.toPlainString());
+            case "sqrt" -> simulatedInput = String.format(Locale.CANADA, "1\n%s\nn\nexit\n", input1.toPlainString());
+            case "cbrt" -> simulatedInput = String.format(Locale.CANADA, "2\n%s\nn\nexit\n", input1.toPlainString());
+            case "customrt" -> simulatedInput = String.format(Locale.CANADA, "3\n%s %s\nn\nexit\n", input2.toPlainString(), input1.toPlainString());
             case "-", "^", "*", "+", "/" ->
                     simulatedInput = String.format(Locale.CANADA, "%s %s\nn\nexit\n", input1.toPlainString(), input2.toPlainString());
 
@@ -72,7 +72,7 @@ class ScientificCalcTests {
             case "*" -> Multiplication.multiplication();
             case "/" -> Division.division();
             case "^" -> Exponents.exponents();
-            case "sqrt" -> SquareRoot.squareRoot();
+            case "sqrt", "cbrt", "customrt" -> Root.root();
             case "!" -> Factorial.factorial();
             default -> throw new IllegalArgumentException("Unknown operator: " + operator);
         }

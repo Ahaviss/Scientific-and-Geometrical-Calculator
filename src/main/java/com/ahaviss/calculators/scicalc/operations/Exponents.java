@@ -28,11 +28,8 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 
 public class Exponents {
-    private static final MultiBigDecimalFunction function = array -> {
-        BigDecimal base = array[0];
-        BigDecimal exponent = array[1];
-        return BigDecimalMath.pow(base, exponent, new MathContext(34, RoundingMode.HALF_EVEN)).stripTrailingZeros();
-    };
+    private static final MultiBigDecimalFunction function = array ->
+        BigDecimalMath.pow(array[0], array[1], MathContext.DECIMAL128).stripTrailingZeros();
     private static void printHelp () {
         System.out.println("Exponents");
         System.out.println("\"exit\": exits the current operation.");
@@ -49,7 +46,7 @@ public class Exponents {
                 BigDecimal[] numbers = ProjectUtils.stringToBigDecimalArray(tempNumbers, HistoryManager.getPrev());
                 if (numbers == null) continue;
                 if (numbers.length != 2) {
-                    System.out.println("Please enter at least two numbers (base and exponent) followed by a space (\"4 5\")");
+                    System.out.println("Please enter at two numbers (base and exponent) followed by a space (\"4 5\")");
                     continue;
                 }
                 BigDecimal base = numbers[0];

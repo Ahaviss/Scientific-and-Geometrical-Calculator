@@ -22,6 +22,7 @@ import com.ahaviss.enums.*;
 import com.ahaviss.utils.ProjectUtils;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 
 public class Division {
@@ -33,7 +34,7 @@ public class Division {
             if (tempNumber.compareTo(BigDecimal.ZERO) == 0) {
                 throw new CalculationException("Division by zero is not allowed.");
             }
-            quotient = quotient.divide(array[i], 34, RoundingMode.HALF_EVEN);
+            quotient = quotient.divide(array[i], MathContext.DECIMAL128);
         }
         return quotient.stripTrailingZeros();
     };

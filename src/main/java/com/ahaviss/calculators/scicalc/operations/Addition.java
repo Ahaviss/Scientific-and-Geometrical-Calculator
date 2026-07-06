@@ -22,13 +22,10 @@ import com.ahaviss.utils.ProjectUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Arrays;
 
 public class Addition {
-    private static final MultiBigDecimalFunction function = array -> {
-        BigDecimal sum = BigDecimal.ZERO;
-        for (BigDecimal number : array) {sum = sum.add(number);}
-        return sum.stripTrailingZeros();
-    };
+    private static final MultiBigDecimalFunction function = array -> Arrays.stream(array).reduce(BigDecimal.ZERO, BigDecimal::add).stripTrailingZeros();
     private static void printHelp () {
         System.out.println("Addition");
         System.out.println("\"exit\": exits the current operation.");

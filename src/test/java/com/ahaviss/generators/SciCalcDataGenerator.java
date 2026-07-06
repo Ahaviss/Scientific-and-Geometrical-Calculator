@@ -31,7 +31,7 @@ import static com.ahaviss.generators.utils.GeneratorUtils.getRandomBigDecimal;
 public class SciCalcDataGenerator {
     public static void main(String[] args) {
         String filePath = "src/test/resources/scicalcinput.csv";
-        String[] operators = {"+", "-", "*", "/", "^", "sqrt", "!"};
+        String[] operators = {"+", "-", "*", "/", "^", "sqrt", "!", "cbrt", "customrt"};
         Random rng = new Random();
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
@@ -79,6 +79,15 @@ public class SciCalcDataGenerator {
                     case "!" -> {
                         a = new BigDecimal(rng.nextInt(1000, 10000));
                         expected = new BigDecimal(calculateFactorial(a.longValue()));
+                    }
+                    case "cbrt" -> {
+                        a = getRandomBigDecimal(new BigDecimal("10000.00"), new BigDecimal("100000000.00"), 4);
+                        expected = BigDecimalMath.root(a, BigDecimal.valueOf(3), MathContext.DECIMAL128);
+                    }
+                    case "customrt" -> {
+                        a = getRandomBigDecimal(new BigDecimal("10000.00"), new BigDecimal("100000000.00"), 4);
+                        b = new BigDecimal(rng.nextInt(2, 100));
+                        expected = BigDecimalMath.root(a, b, MathContext.DECIMAL128);
                     }
                 }
 

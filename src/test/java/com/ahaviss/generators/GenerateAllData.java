@@ -30,6 +30,6 @@ public class GenerateAllData {
         ThreeDDataGeneratorSA.main(new String[]{"-generateAllData", String.valueOf(data)});
         LocalTime end = LocalTime.now();
         Duration duration = Duration.between(start, end);
-        System.out.printf("Generation complete in %d milliseconds!%n", duration.toMillis());
+        System.out.printf("Generation complete in %.4f seconds (%d milliseconds)!%n", duration.toMillis() / 1000.0, duration.toMillis());
     }
 }

@@ -21,7 +21,7 @@ public enum TypeOfCalculation {
     MULTIPLICATION("Multiplication"),
     DIVISION("Division"),
     FACTORIAL("Factorial"),
-    SQUARE_ROOT("Square Root"),
+    ROOT("Root"),
     EXPONENTS("Exponents"),
     CIRCUMFERENCE("Circumference"),
     FACTORS("Find Factors"),

@@ -111,7 +111,7 @@ public class GeoCalc {
     public static void geoCalc () {
         while (true) {
             try {
-                String calculation = ProjectUtils.getValidString("Would you like to do a 2D (Area) calculation or a 3D (Volume and Surface Area) calculation, or quit?\n (3D/2D/Quit)");
+                String calculation = ProjectUtils.getValidString("Would you like to do a 2D (Area) calculation or a 3D (Volume and Surface Area) calculation, Manage History, or Quit?\n (3D/2D/Manage History/Quit)");
                 switch (calculation.toLowerCase()) {
                     case "3d":
                         if (shape3DCalc()) {

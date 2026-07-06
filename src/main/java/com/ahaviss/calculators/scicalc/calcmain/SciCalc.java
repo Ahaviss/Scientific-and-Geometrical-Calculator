@@ -15,29 +15,14 @@
  */
 package com.ahaviss.calculators.scicalc.calcmain;
 
-import java.util.List;
-
 import com.ahaviss.utils.ProjectUtils;
 import com.ahaviss.history.*;
 import com.ahaviss.calculators.scicalc.operations.*;
 public class SciCalc {
-    public static void history () {
-        System.out.println("History:");
-        List<History> history = HistoryManager.getHistory();
-        int size = history.size();
-        for (int i = 0; i < size; i++) {
-            System.out.printf("%d.", i);
-            history.get(i).printHistory();
-        }
-    }
-    public static void clearHistory () {
-        HistoryManager.clearHistory();
-        System.out.println("History cleared successfully!");
-    }
     public static void sciCalc() {
         while (true) {
             try{
-                int option = ProjectUtils.getValidInt("Which operation?\n1 (Add), 2 (Subtract), 3 (Multiply), 4 (Divide), 5 (Exponents), 6 (Find Factors), 7 (Square Root),\n8 (Factorial), 9 (See History), 10 (Quit Scientific Calculator), 11 (Quit Program)", false);
+                int option = ProjectUtils.getValidInt("Which operation?\n1 (Add), 2 (Subtract), 3 (Multiply), 4 (Divide), 5 (Exponents), 6 (Find Factors), 7 (Roots),\n8 (Factorial), 9 (Manage History), 10 (Quit Scientific Calculator), 11 (Quit Program)", false);
                 switch (option) {
                     case 1:
                         Addition.addition();
@@ -58,7 +43,7 @@ public class SciCalc {
                         Factors.factors();
                         break;
                     case 7:
-                        SquareRoot.squareRoot();
+                        Root.root();
                         break;
                     case 8:
                         Factorial.factorial();
@@ -72,10 +57,11 @@ public class SciCalc {
                             else {
                                 String historyOption = ProjectUtils.getValidString("Would you like to see history or clear history? (see history/clear history):");
                                 if (historyOption.equalsIgnoreCase("see history")) {
-                                    history();
+                                    HistoryManager.printHistory();
                                     break;
                                 } else if (historyOption.equalsIgnoreCase("clear history")) {
-                                    clearHistory();
+                                    HistoryManager.clearHistory();
+                                    System.out.println("History cleared successfully!");
                                     break;
                                 } else {
                                     System.out.println("Error: Invalid option. Try again.");

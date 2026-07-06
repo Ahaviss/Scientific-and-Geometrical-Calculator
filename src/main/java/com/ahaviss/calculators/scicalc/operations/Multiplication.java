@@ -22,13 +22,11 @@ import com.ahaviss.utils.ProjectUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Arrays;
 
 public class Multiplication {
-    private static final MultiBigDecimalFunction function = array -> {
-        BigDecimal product = BigDecimal.ONE;
-        for (BigDecimal number : array) {product = product.multiply(number);}
-        return product.stripTrailingZeros();
-    };
+    private static final MultiBigDecimalFunction function = array ->
+        Arrays.stream(array).reduce(BigDecimal.ONE, BigDecimal::multiply);
     private static void printHelp () {
         System.out.println("Multiplication");
         System.out.println("\"exit\": exits the current operation.");

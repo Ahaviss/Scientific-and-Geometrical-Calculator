@@ -24,6 +24,17 @@ public class HistoryManager {
     public static void setPrev(BigDecimal prev){HistoryManager.prev = prev;}
     public static BigDecimal getPrev(){return HistoryManager.prev;}
     public static void addHistory(History history) {HistoryManager.history.add(history);}
+    public static void printHistory () {
+        System.out.println("History:");
+        System.out.println("-------------");
+        List<History> history = HistoryManager.getHistory();
+        int size = history.size();
+        for (int i = 0; i < size; i++) {
+            System.out.printf("%d. ", i+1);
+            history.get(i).printHistory();
+        }
+        System.out.println("-------------");
+    }
     public static List<History> getHistory() {return history;}
     public static void clearHistory() {history.clear();}
 }
