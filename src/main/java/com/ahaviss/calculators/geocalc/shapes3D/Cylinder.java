@@ -37,7 +37,7 @@ public class Cylinder extends Shape3D {
 
         return radius.pow(2)
                 .multiply(PI)
-                .multiply(height);
+                .multiply(height).stripTrailingZeros();
     }
 
     @Override

@@ -27,8 +27,17 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Locale;
 import java.util.Random;
+import java.util.stream.LongStream;
+
 import static com.ahaviss.generators.utils.GeneratorUtils.getRandomBigDecimal;
 public class SciCalcDataGenerator {
+    private static final BigInteger[] FACTORIAL_CACHE = new BigInteger[501];
+    static {
+        FACTORIAL_CACHE[0] = BigInteger.ONE;
+        for (int i = 1; i <= 500; i++) {
+            FACTORIAL_CACHE[i] = FACTORIAL_CACHE[i - 1].multiply(BigInteger.valueOf(i));
+        }
+    }
     public static void main(String[] args) {
         String filePath = "src/test/resources/scicalcinput.csv";
         String[] operators = {"+", "-", "*", "/", "^", "sqrt", "!", "cbrt", "customrt"};
@@ -69,23 +78,23 @@ public class SciCalcDataGenerator {
                     }
                     case "^" -> {
                         a = getRandomBigDecimal(new BigDecimal("100.00"), new BigDecimal("10000.00"), 4);
-                        b = getRandomBigDecimal(new BigDecimal("100.00"), new BigDecimal("10000.00"), 4);
+                        b = getRandomBigDecimal(new BigDecimal("10.00"), new BigDecimal("100.00"), 4);
                         expected = BigDecimalMath.pow(a, b, MathContext.DECIMAL128);
                     }
                     case "sqrt" -> {
-                        a = getRandomBigDecimal(new BigDecimal("10000.00"), new BigDecimal("100000000.00"), 4);
+                        a = getRandomBigDecimal(new BigDecimal("0.001"), new BigDecimal("100000000.00"), 4);
                         expected = a.sqrt(MathContext.DECIMAL128);
                     }
                     case "!" -> {
-                        a = new BigDecimal(rng.nextInt(1000, 10000));
-                        expected = new BigDecimal(calculateFactorial(a.longValue()));
+                        a = new BigDecimal(rng.nextInt(100, 500));
+                        expected = new BigDecimal(calculateFactorial(a.intValue()));
                     }
                     case "cbrt" -> {
-                        a = getRandomBigDecimal(new BigDecimal("10000.00"), new BigDecimal("100000000.00"), 4);
+                        a = getRandomBigDecimal(new BigDecimal("0.001"), new BigDecimal("100000000.00"), 4);
                         expected = BigDecimalMath.root(a, BigDecimal.valueOf(3), MathContext.DECIMAL128);
                     }
                     case "customrt" -> {
-                        a = getRandomBigDecimal(new BigDecimal("10000.00"), new BigDecimal("100000000.00"), 4);
+                        a = getRandomBigDecimal(new BigDecimal("0.001"), new BigDecimal("100000000.00"), 4);
                         b = new BigDecimal(rng.nextInt(2, 100));
                         expected = BigDecimalMath.root(a, b, MathContext.DECIMAL128);
                     }
@@ -98,9 +107,8 @@ public class SciCalcDataGenerator {
 
         } catch (IOException e) {e.printStackTrace();}
     }
-    private static BigInteger calculateFactorial(long n) {
-        BigInteger fact = BigInteger.ONE;
-        for (long i = 1; i <= n; i++) fact = fact.multiply(BigInteger.valueOf(i));
-        return fact;
+    private static BigInteger calculateFactorial(int n) {
+        if (n < 100 || n > 500) {throw new IllegalArgumentException("Factorial defied its bounds.");}
+        return FACTORIAL_CACHE[n];
     }
 }
